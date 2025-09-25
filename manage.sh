@@ -11,6 +11,9 @@ SCRIPT_PATH="$REPO_DIR/$(basename "$0")"
 CRON_LOG="$REPO_DIR/cron.log"
 CRON_SCHEDULE="*/10 * * * *"
 CRON_CMD="cd $REPO_DIR && $SCRIPT_PATH deploy >> $CRON_LOG 2>&1"
+DECRYPTED_PREFIX="decrypted-"
+CONFIG_SECRET_DIR="$REPO_DIR/config-sops"
+CONFIG_DIR="$REPO_DIR/config"
 
 ### === HELP ===
 usage() {
@@ -63,15 +66,56 @@ cron_remove() {
   echo "Cron job removed."
 }
 
+should_update_repo() {
+  echo "Fetching latest changes..."
+  git fetch origin main >/dev/null 2>&1
+
+  LOCAL_HASH=$(git rev-parse HEAD)
+  REMOTE_HASH=$(git rev-parse origin/main)
+
+  if [[ "$LOCAL_HASH" != "$REMOTE_HASH" ]]; then
+    echo "New commit detected: $REMOTE_HASH"
+    return 0  # Repo has changed
+  else
+    echo "No new commits. Skipping deploy."
+    return 1  # No changes
+  fi
+}
+
+decrypt_config_secrets() {
+  echo "Decrypting config secrets..."
+  shopt -s nullglob
+  for file in "$CONFIG_SECRET_DIR"/*.yaml; do
+    filename=$(basename "$file")
+    decrypted_file="$CONFIG_DIR/$DECRYPTED_PREFIX$filename"
+    sops --decrypt "$file" > "$decrypted_file"
+    echo " Decrypted $filename -> $decrypted_file"
+  done
+  shopt -u nullglob
+}
+
+clean_decrypted_configs() {
+  echo "Cleaning up decrypted config files..."
+  rm -f "$CONFIG_DIR/$DECRYPTED_PREFIX"*.yaml
+}
+
 ### === COMMANDS ===
 
 deploy() {
   cd "$REPO_DIR"
 
+  if ! should_update_repo; then
+    exit 0
+  fi
+
+  echo "Cleaning up old decrypted configs before pulling..."
+  clean_decrypted_configs
+
   echo "Pulling latest changes from git..."
   git pull origin main
 
   decrypt_env
+  decrypt_config_secrets
 
   CURRENT_HASH=$(get_current_hash)
   LAST_HASH=""
@@ -80,12 +124,12 @@ deploy() {
   fi
 
   if [[ "$CURRENT_HASH" != "$LAST_HASH" ]]; then
-    echo "Changes detected, redeploying..."
+    echo "Changes to compose detected, redeploying..."
     docker_down
     docker_up
     echo "$CURRENT_HASH" > "$HASH_FILE"
   else
-    echo "No changes detected, skipping redeploy."
+    echo "No changes to compose detected, skipping redeploy."
   fi
 
   clean_env
@@ -94,8 +138,10 @@ deploy() {
 run_only() {
   cd "$REPO_DIR"
 
-  echo "Running without hash check: decrypting and starting containers..."
+  echo "Running without compose hash check: decrypting and starting containers..."
+  clean_decrypted_configs
   decrypt_env
+  decrypt_config_secrets
   docker_up
   clean_env
 }
@@ -106,6 +152,7 @@ teardown() {
   decrypt_env
   docker_down
   clean_env
+  clean_decrypted_configs
 
   if [[ -f "$HASH_FILE" ]]; then
     echo "Removing saved hash file..."

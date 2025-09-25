@@ -4,3 +4,4 @@ secrets.yaml
 .last_deploy_hash
 data/*
 cron.log
+config/decrypted-*.yaml

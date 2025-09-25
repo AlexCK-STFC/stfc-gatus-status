@@ -6,6 +6,8 @@ ui:
   # buttons:
   #   - name: "Home"
   #     link: "https://example.org"
+  title: STFC Cloud Status Page
+  description: Public status page for STFC Cloud services
   default-sort-by: group
 
 announcements:
