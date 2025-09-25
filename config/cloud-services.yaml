@@ -1,0 +1,7 @@
+endpoints:
+  - name: Azimuth
+    group: Cloud Services
+    url: "https://portal.apps.cape.stfc.ac.uk/"
+    interval: 60s
+    conditions:
+      - "[STATUS] == 200"

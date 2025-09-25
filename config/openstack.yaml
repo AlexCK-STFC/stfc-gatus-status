@@ -1,0 +1,217 @@
+endpoints:
+  - name: OpenStack Identity (Keystone)
+    group: OpenStack
+    url: "https://openstack.stfc.ac.uk:5000"
+    interval: 60s
+    ui:
+      hide-hostname: true
+      hide-port: true
+      hide-conditions: true
+      hide-url: true
+    conditions:
+      - "[STATUS] == any(200, 401, 400, 300)"
+
+  - name: OpenStack Identity v3 (Keystone v3)
+    group: OpenStack
+    url: "https://openstack.stfc.ac.uk:5000/v3"
+    interval: 60s
+    ui:
+      hide-hostname: true
+      hide-port: true
+      hide-conditions: true
+      hide-url: true
+    conditions:
+      - "[STATUS] == any(200, 401, 400, 300)"
+
+  - name: OpenStack Web UI (Horizon)
+    group: OpenStack
+    url: "https://openstack.stfc.ac.uk"
+    interval: 60s
+    ui:
+      hide-hostname: true
+      hide-port: true
+      hide-conditions: true
+      hide-url: true
+    conditions:
+      - "[STATUS] == any(200, 401, 400, 300)"
+
+  - name: OpenStack Compute (Nova)
+    group: OpenStack
+    url: "https://openstack.stfc.ac.uk:8774/v2.1"
+    interval: 60s
+    ui:
+      hide-hostname: true
+      hide-port: true
+      hide-conditions: true
+      hide-url: true
+    conditions:
+      - "[STATUS] == any(200, 401, 400, 300)"
+
+  - name: OpenStack Legacy Compute (Nova Legacy)
+    group: OpenStack
+    url: "https://openstack.stfc.ac.uk:8774/v2"
+    interval: 60s
+    ui:
+      hide-hostname: true
+      hide-port: true
+      hide-conditions: true
+      hide-url: true
+    conditions:
+      - "[STATUS] == any(200, 401, 400, 300)"
+
+  - name: OpenStack EC2 API
+    group: OpenStack
+    url: "https://openstack.stfc.ac.uk:8788/v2/"
+    interval: 60s
+    ui:
+      hide-hostname: true
+      hide-port: true
+      hide-conditions: true
+      hide-url: true
+    conditions:
+      # - "[STATUS] == any(200, 401, 400, 300)"
+      - "[STATUS] != 999"
+
+  - name: OpenStack Network (Neutron)
+    group: OpenStack
+    url: "https://openstack.stfc.ac.uk:9696"
+    interval: 60s
+    ui:
+      hide-hostname: true
+      hide-port: true
+      hide-conditions: true
+      hide-url: true
+    conditions:
+      - "[STATUS] == any(200, 401, 400, 300)"
+
+  - name: OpenStack Load Balancer (Octavia)
+    group: OpenStack
+    url: "https://openstack.stfc.ac.uk:9876"
+    interval: 60s
+    ui:
+      hide-hostname: true
+      hide-port: true
+      hide-conditions: true
+      hide-url: true
+    conditions:
+      - "[STATUS] == any(200, 401, 400, 300)"
+
+  - name: OpenStack Volume (Cinder v3)
+    group: OpenStack
+    url: "https://openstack.stfc.ac.uk:8776/v3"
+    interval: 60s
+    ui:
+      hide-hostname: true
+      hide-port: true
+      hide-conditions: true
+      hide-url: true
+    conditions:
+      - "[STATUS] == any(200, 401, 400, 300)"
+
+  - name: OpenStack Object Store (Swift)
+    group: OpenStack
+    url: "https://s3.echo.stfc.ac.uk/swift/v1"
+    interval: 60s
+    ui:
+      hide-hostname: true
+      hide-port: true
+      hide-conditions: true
+      hide-url: true
+    conditions:
+      - "[STATUS] == any(200, 401, 400, 300)"
+
+  - name: OpenStack Shared File System (Manila)
+    group: OpenStack
+    url: "https://openstack.stfc.ac.uk:8786/v1"
+    interval: 60s
+    ui:
+      hide-hostname: true
+      hide-port: true
+      hide-conditions: true
+      hide-url: true
+    conditions:
+      - "[STATUS] == any(200, 401, 400, 300)"
+
+  - name: OpenStack Shared File System v2 (Manila v2)
+    group: OpenStack
+    url: "https://openstack.stfc.ac.uk:8786/v2"
+    interval: 60s
+    ui:
+      hide-hostname: true
+      hide-port: true
+      hide-conditions: true
+      hide-url: true
+    conditions:
+      - "[STATUS] == any(200, 401, 400, 300)"
+
+  - name: OpenStack Image (Glance)
+    group: OpenStack
+    url: "https://openstack.stfc.ac.uk:9292"
+    interval: 60s
+    ui:
+      hide-hostname: true
+      hide-port: true
+      hide-conditions: true
+      hide-url: true
+    conditions:
+      - "[STATUS] == any(200, 401, 400, 300)"
+
+  - name: OpenStack Baremetal (Ironic)
+    group: OpenStack
+    url: "https://openstack.stfc.ac.uk:6385"
+    interval: 60s
+    ui:
+      hide-hostname: true
+      hide-port: true
+      hide-conditions: true
+      hide-url: true
+    conditions:
+      - "[STATUS] == any(200, 401, 400, 300)"
+
+  - name: OpenStack Baremetal Introspection (Ironic-Inspector)
+    group: OpenStack
+    url: "https://openstack.stfc.ac.uk:5050/"
+    interval: 60s
+    ui:
+      hide-hostname: true
+      hide-port: true
+      hide-conditions: true
+      hide-url: true
+    conditions:
+      - "[STATUS] == any(200, 401, 400, 300)"
+
+  - name: OpenStack Cloudformation (Heat-CFN)
+    group: OpenStack
+    url: "https://openstack.stfc.ac.uk:8000/v1"
+    interval: 60s
+    ui:
+      hide-hostname: true
+      hide-port: true
+      hide-conditions: true
+      hide-url: true
+    conditions:
+      - "[STATUS] == any(200, 401, 400, 300)"
+
+  - name: OpenStack Orchestration (Heat)
+    group: OpenStack
+    url: "https://openstack.stfc.ac.uk:8004/v1"
+    interval: 60s
+    ui:
+      hide-hostname: true
+      hide-port: true
+      hide-conditions: true
+      hide-url: true
+    conditions:
+      - "[STATUS] == any(200, 401, 400, 300)"
+
+  - name: OpenStack Resource Placement
+    group: OpenStack
+    url: "https://openstack.stfc.ac.uk:8778"
+    interval: 60s
+    ui:
+      hide-hostname: true
+      hide-port: true
+      hide-conditions: true
+      hide-url: true
+    conditions:
+      - "[STATUS] == any(200, 401, 400, 300)"

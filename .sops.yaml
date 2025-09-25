@@ -1,0 +1,5 @@
+creation_rules:
+  - path_regex: enc.env
+    key_groups:
+      - age:
+          - age1alwl6u2ypueddmkquuhpxtfx4u7rwdgttnre4y64ku4erp6pue2sqlravx

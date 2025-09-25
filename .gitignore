@@ -1,0 +1,6 @@
+secrets.yaml
+.decrypted~*
+.env.dec
+.last_deploy_hash
+data/*
+cron.log
