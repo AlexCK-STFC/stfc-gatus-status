@@ -1,0 +1,24 @@
+external-endpoints:
+    - name: Test-External-Heartbeat
+      group: Cloud Services
+      # Insecure, change for prod, example
+      token: ENC[AES256_GCM,data:DbehSPXPfPY=,iv:2A3NqAMYY5K/UmETv6kRM0eZyBogm+7gXe9WmgO4jiQ=,tag:m1YGQ1lX6LwJJ4zLzrB7iw==,type:str]
+      heartbeat:
+        interval: 1m
+# curl -X POST "http://localhost:8080/api/v1/endpoints/cloud-services_test-external-heartbeat/external?success=true&duration=10s" \
+#   -H "Authorization: Bearer <TOKEN_HERE>"
+sops:
+    age:
+        - recipient: age1alwl6u2ypueddmkquuhpxtfx4u7rwdgttnre4y64ku4erp6pue2sqlravx
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBqY3pkei9kcHdYcnB2R3RT
+            YkU5THViNEY0Y0lwdVdOU3VyY0Y0RWwya0ZZCnVEQXJOQ1dZcTI3bWF1cFgwb3E1
+            blM3ZEV0bzM1cDdDN3VBRDlsR2tSeXMKLS0tICtOV25OckJUV05ybHAwNUplVU5Q
+            RTMyclkyOUo4aW9ESjJiZUNMU2huTzAKmTDydNH1vnUnaY7OqoHApvW4gMoK0pva
+            ulEsA7UVKh7thOFlpbJZmOruO5NUcyiEmnKEjZXb7IXv09eS3f8SBQ==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2025-09-26T09:22:36Z"
+    mac: ENC[AES256_GCM,data:MilFjP2Udt4xeVLzFhjkOei+f9UjULGIAEu7qglQdTj/gcqygJH337LkmEOcz4dnN40misxgESauxKhb2TElpc8/K3tGr6jewJEvaTXuosdbTDMpTltHswfDvA7eDIfBSjA/Mj+ceO2tY4MfgZe0J8DhW6NAPlSNt58Ll1ppgvE=,iv:26pTrkz9fggNyahirVgEJn/AsSw2QkwIH9CJ/KIGZWU=,tag:nXmH0RJHbmqd6I8yVVVNQA==,type:str]
+    encrypted_regex: ^(token)$
+    version: 3.10.2
