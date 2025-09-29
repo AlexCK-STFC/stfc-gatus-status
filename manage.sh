@@ -88,7 +88,8 @@ deploy() {
   else
     echo "Starting deployment via GitHub Actions..."
     echo "Pulling latest changes from git..."
-    git pull origin main
+    git fetch origin main
+    git reset --hard origin/main
   fi
 
   # Decrypt sensitive files
