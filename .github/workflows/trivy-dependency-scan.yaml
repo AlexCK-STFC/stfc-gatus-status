@@ -1,0 +1,57 @@
+name: Trivy Image Scan
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * *'  # daily at 03:00 UTC
+
+jobs:
+  trivy-scan:
+    name: Scan Docker Images with Trivy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y jq yq
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+
+      - name: Extract images from docker-compose.yml
+        id: extract
+        run: |
+          mkdir -p trivy-reports
+          yq -r '.services[].image' docker-compose.yml > images.txt
+          echo "Found images:"
+          cat images.txt
+
+      - name: Run Trivy scan for each image
+        id: scan
+        continue-on-error: true
+        run: |
+          failed=false
+          while read -r image; do
+            if [ -z "$image" ]; then
+              continue
+            fi
+            safe_name=$(echo "$image" | tr '/:' '__')
+            echo "Scanning image: $image"
+            trivy image --exit-code 0 --format json -o "trivy-reports/${safe_name}.json" "$image"
+            trivy image --exit-code 1 --severity HIGH,CRITICAL "$image" || failed=true
+          done < images.txt
+          echo "FAILED=$failed" >> $GITHUB_ENV
+
+      - name: Upload Trivy scan reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-reports
+          path: trivy-reports/
+
+      - name: Fail workflow if high/critical vulnerabilities found
+        if: env.FAILED == 'true'
+        run: |
+          echo "High/Critical vulnerabilities found!"
+          exit 1
