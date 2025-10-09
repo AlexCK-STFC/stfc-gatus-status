@@ -1,8 +1,7 @@
 external-endpoints:
     - name: Test-External-Heartbeat
       group: Cloud Services
-      # Insecure, change for prod, example
-      token: ENC[AES256_GCM,data:DbehSPXPfPY=,iv:2A3NqAMYY5K/UmETv6kRM0eZyBogm+7gXe9WmgO4jiQ=,tag:m1YGQ1lX6LwJJ4zLzrB7iw==,type:str]
+      token: ENC[AES256_GCM,data:c2DCZEuJnjMuvcGp7wk=,iv:pDmJDVlK2/RVp4K4YCsMccA7IVMFwUbDsTh5fjpYF24=,tag:zaDx8BBQs4GEPPqFWo9xOQ==,type:str]
       heartbeat:
         interval: 1m
 # curl -X POST "http://localhost:8080/api/v1/endpoints/cloud-services_test-external-heartbeat/external?success=true&duration=10s" \
@@ -27,7 +26,7 @@ sops:
             THBGOTVQT3M0VlUrZDRuK25wcWp4QjQKUJCP0mcZxXL7DcPhh0nrpSWomyXpGmug
             bhXjZ4M6ZEx2/FmWbYuLax7r57x47IM09Jl26EQ5+9/ziAMB5/z2TQ==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2025-09-26T09:22:36Z"
-    mac: ENC[AES256_GCM,data:MilFjP2Udt4xeVLzFhjkOei+f9UjULGIAEu7qglQdTj/gcqygJH337LkmEOcz4dnN40misxgESauxKhb2TElpc8/K3tGr6jewJEvaTXuosdbTDMpTltHswfDvA7eDIfBSjA/Mj+ceO2tY4MfgZe0J8DhW6NAPlSNt58Ll1ppgvE=,iv:26pTrkz9fggNyahirVgEJn/AsSw2QkwIH9CJ/KIGZWU=,tag:nXmH0RJHbmqd6I8yVVVNQA==,type:str]
+    lastmodified: "2025-10-09T14:06:37Z"
+    mac: ENC[AES256_GCM,data:g2EDmjyasne/CJ+aBRj9zGJPHPT85Qmtge1wkdzqkbocy7jEg6lfMxlzrcaF50J2yzV4HR1uZtDg498oo5x+QZLQIJmgCa+0Y9AQ9ga+iDkhniIvbPrSi14xURBk01fXfxEj8H/i9TeiPcz25HMTJD0ARssIcP8BmoxHrYkaNRo=,iv:o8Im9CXjKMMYkgQIqVBkM9BKdv9nk2E/px7xDFXatHc=,tag:vfyW5yDedSI7YBl24GdI7Q==,type:str]
     encrypted_regex: ^(token)$
     version: 3.10.2
