@@ -1,26 +1,30 @@
 metrics: true
 ui:
   header: STFC Cloud Status Page
-  link: https://example.org
+  link: http://130.246.211.219/
   logo: https://raw.githubusercontent.com/AlexCK-STFC/stfc-gatus-status/refs/heads/main/assets/UKRI_STFC_Square_RGB.png
-  # buttons:
-  #   - name: "Home"
-  #     link: "https://example.org"
+  buttons:
+    - name: "STFC Cloud Slack"
+      link: "https://stfc-cloud.slack.com"
+    - name: "Join our Mailing List"
+      link: "https://www.jiscmail.ac.uk/cgi-bin/webadmin?A0=STFC-CLOUD"
   title: STFC Cloud Status Page
   description: Public status page for STFC Cloud services
   default-sort-by: group
 
+# https://www.datetimeapp.com/
+# ISO 8601 timestamps (or RFC3339)
+# Types:
+# outage: Indicates service disruptions or critical issues (red theme)
+# warning: Indicates potential issues or important notices (yellow theme)
+# information: General information or updates (blue theme)
+# operational: Indicates resolved issues or normal operations (green theme)
+# none: Neutral announcements with no specific severity (gray theme, default if none are specified)
 announcements:
-  - timestamp: 2025-08-15T14:00:00Z
-    type: outage
-    message: "Scheduled maintenance on database servers from 14:00 to 16:00 UTC"
-  - timestamp: 2025-08-15T16:15:00Z
-    type: operational
-    message: "Database maintenance completed successfully. All systems operational."
-  - timestamp: 2025-08-15T12:00:00Z
+  - timestamp: 2025-10-31T08:00:00.000+00:00
     type: information
-    message: "New monitoring dashboard features will be deployed next week"
-
+    message: |
+      Upcoming electrical maintenance works are planned for the weekends of the 1st and 2nd, and 8th and 9th, of November. While this and further planned maintenance works on our Control Plane and Network infrastructure take place, the cloud will be operating at-risk for the period beginning Friday 31st October through to Wednesday 12th November. For more information, included a list of impacted VM types, users should visit our Slack linked above and view the #notifications channel.
 storage:
   type: postgres
   path: "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?sslmode=disable"

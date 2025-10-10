@@ -1,9 +1,9 @@
-external-endpoints:
-    - name: Test-External-Heartbeat
-      group: Cloud Services
-      token: ENC[AES256_GCM,data:c2DCZEuJnjMuvcGp7wk=,iv:pDmJDVlK2/RVp4K4YCsMccA7IVMFwUbDsTh5fjpYF24=,tag:zaDx8BBQs4GEPPqFWo9xOQ==,type:str]
-      heartbeat:
-        interval: 1m
+external-endpoints: null
+# - name: Test-External-Heartbeat
+#   group: Cloud Services
+#   token: # Some token will go here and be SOPS encrypted
+#   heartbeat:
+#     interval: 1m
 # curl -X POST "http://localhost:8080/api/v1/endpoints/cloud-services_test-external-heartbeat/external?success=true&duration=10s" \
 #   -H "Authorization: Bearer <TOKEN_HERE>"
 sops:
@@ -26,7 +26,7 @@ sops:
             THBGOTVQT3M0VlUrZDRuK25wcWp4QjQKUJCP0mcZxXL7DcPhh0nrpSWomyXpGmug
             bhXjZ4M6ZEx2/FmWbYuLax7r57x47IM09Jl26EQ5+9/ziAMB5/z2TQ==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2025-10-09T14:06:37Z"
-    mac: ENC[AES256_GCM,data:g2EDmjyasne/CJ+aBRj9zGJPHPT85Qmtge1wkdzqkbocy7jEg6lfMxlzrcaF50J2yzV4HR1uZtDg498oo5x+QZLQIJmgCa+0Y9AQ9ga+iDkhniIvbPrSi14xURBk01fXfxEj8H/i9TeiPcz25HMTJD0ARssIcP8BmoxHrYkaNRo=,iv:o8Im9CXjKMMYkgQIqVBkM9BKdv9nk2E/px7xDFXatHc=,tag:vfyW5yDedSI7YBl24GdI7Q==,type:str]
+    lastmodified: "2025-10-10T09:34:41Z"
+    mac: ENC[AES256_GCM,data:QWhJo+nakMOcj+4BPCIkc6QHvvEMHyYI/IBvrFjsRbG66FBNdgjdStJ8xKMAn/8uo2XrgA+fEyml8+dZ2+Tqn3EamdKbaJKiIo+FaUsLL7vbs1QrEr35SgizWQdnhb7ZJKILIRep0YX/2ulg+p3CgzF6XoIQJoAMTRflRVWr+CA=,iv:bXENkmCEboxPuEJhzlqAvOFW7k9sPdZk7k9pIRQf8ss=,tag:qivznmJwiljI61td9T40uA==,type:str]
     encrypted_regex: ^(token)$
     version: 3.10.2
