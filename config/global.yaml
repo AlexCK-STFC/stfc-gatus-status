@@ -1,7 +1,7 @@
 metrics: true
 ui:
   header: STFC Cloud Status Page
-  link: http://130.246.211.219/
+  link: http://130.246.81.39/
   logo: https://raw.githubusercontent.com/AlexCK-STFC/stfc-gatus-status/refs/heads/main/assets/UKRI_STFC_Square_RGB.png
   buttons:
     - name: "STFC Cloud Slack"
