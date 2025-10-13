@@ -5,6 +5,12 @@ creation_rules:
           - age1alwl6u2ypueddmkquuhpxtfx4u7rwdgttnre4y64ku4erp6pue2sqlravx # Alex CK
           - age1f2xzzxkca8nlfvpzal3jx8tg8tyyf9svrcwmfm70j5drycj23u4qa20j3r # Dev Deployment Key
           - age1t22kyk2z78m6hv80wu37j58uszkadku50mda8d4y83meqz7l7qksu96wm8 # Prod Deployment Key
+  - path_regex: enc.dev.env
+    key_groups:
+      - age:
+          - age1alwl6u2ypueddmkquuhpxtfx4u7rwdgttnre4y64ku4erp6pue2sqlravx # Alex CK
+          - age1f2xzzxkca8nlfvpzal3jx8tg8tyyf9svrcwmfm70j5drycj23u4qa20j3r # Dev Deployment Key
+          - age1t22kyk2z78m6hv80wu37j58uszkadku50mda8d4y83meqz7l7qksu96wm8 # Prod Deployment Key
   - path_regex: ^config-sops/.*\.ya?ml$
     encrypted_regex: '^(token)$'
     key_groups:
