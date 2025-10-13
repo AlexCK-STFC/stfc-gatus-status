@@ -4,8 +4,10 @@ set -e
 ### === CONFIG ===
 REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
 ENC_ENV_FILE="$REPO_DIR/enc.env"
+DEV_ENC_ENV_FILE="$REPO_DIR/enc.dev.env"
 DEC_ENV_FILE="$REPO_DIR/.env.dec"
 DOCKER_COMPOSE_FILE="$REPO_DIR/docker-compose.yml"
+DEV_DOCKER_COMPOSE_FILE="$REPO_DIR/dev-docker-compose.yml"
 DECRYPTED_PREFIX="decrypted-"
 CONFIG_SECRET_DIR="$REPO_DIR/config-sops"
 CONFIG_DIR="$REPO_DIR/config"
@@ -28,12 +30,12 @@ clean_env() {
 
 docker_up() {
   echo "Starting Docker containers..."
-  docker compose --env-file "$DEC_ENV_FILE" up -d
+  docker compose -f "$DOCKER_COMPOSE_FILE" --env-file "$DEC_ENV_FILE" up -d --pull always
 }
 
 docker_down() {
   echo "Stopping and removing Docker containers..."
-  docker compose --env-file "$DEC_ENV_FILE" down
+  docker compose -f "$DOCKER_COMPOSE_FILE" --env-file "$DEC_ENV_FILE" down
 }
 
 decrypt_config_secrets() {
@@ -81,10 +83,27 @@ wait_for_containers() {
 deploy() {
   cd "$REPO_DIR"
 
-  DEV_DEPLOY=false
-  if [[ "$2" == "--dev" ]]; then
-    echo "Starting local dev deployment..."
-    DEV_DEPLOY=true
+  # Parse optional flags
+  local local_flag=false
+  local dev_flag=false
+
+  for arg in "$@"; do
+    case "$arg" in
+      --local) local_flag=true ;;
+      --dev) dev_flag=true ;;
+    esac
+  done
+
+  # Set dev docker compose if requested
+  if [[ "$dev_flag" == true ]]; then
+    DOCKER_COMPOSE_FILE=$DEV_DOCKER_COMPOSE_FILE
+    ENC_ENV_FILE=$DEV_ENC_ENV_FILE
+    echo "Using development Docker Compose file: $DOCKER_COMPOSE_FILE"
+    echo "Using development env file: $ENC_ENV_FILE"
+  fi
+
+  if [[ "$local_flag" == true ]]; then
+    echo "Starting local deployment..."
   else
     echo "Starting deployment via GitHub Actions..."
     echo "Pulling latest changes from git..."
@@ -117,6 +136,24 @@ deploy() {
 
 teardown() {
   cd "$REPO_DIR"
+
+  # Parse optional flag
+  local dev_flag=false
+
+  for arg in "$@"; do
+    case "$arg" in
+      --dev) dev_flag=true ;;
+    esac
+  done
+
+  # Handle --dev flag
+  if [[ "$dev_flag" == true ]]; then
+    DOCKER_COMPOSE_FILE="$REPO_DIR/dev-docker-compose.yml"
+    ENC_ENV_FILE="$REPO_DIR/enc.dev.env"
+    echo "Using development Docker Compose file: $DOCKER_COMPOSE_FILE"
+    echo "Using development env file: $ENC_ENV_FILE"
+  fi
+
   decrypt_env
   docker_down
   clean_env
@@ -124,9 +161,10 @@ teardown() {
   echo "Teardown complete."
 }
 
+
 ### === DISPATCH ===
 case "$1" in
   deploy) deploy  "$@" ;;
-  teardown) teardown ;;
-  *) echo "Usage: $0 deploy [--dev] | teardown" && exit 1 ;;
+  teardown) teardown "$@" ;;
+  *) echo "Usage: $0 deploy [--local] [--dev] | teardown" && exit 1 ;;
 esac
