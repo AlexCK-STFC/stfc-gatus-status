@@ -3,7 +3,7 @@ name: Trivy Image Scan
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 3 * * *'  # daily at 03:00 UTC
+    - cron: '0 6 * * 1'  # weekly on Mondays at 06:00 UTC
 
 jobs:
   trivy-scan:
