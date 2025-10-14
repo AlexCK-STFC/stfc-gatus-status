@@ -1,0 +1,35 @@
+name: Deploy via SSH
+
+on:
+  workflow_dispatch:
+#   push:
+#     branches:
+#       - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger remote deployment
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          echo "$SSH_KEY" > private_key.pem
+          chmod 600 private_key.pem
+
+          echo "Connecting to $SSH_USER@$SSH_HOST and triggering deployment..."
+          # The forced command in authorized_keys will run the deploy script
+          set +e
+          ssh -i private_key.pem -o StrictHostKeyChecking=no "$SSH_USER@$SSH_HOST"
+          STATUS=$?
+          set -e
+          
+          if [ $STATUS -ne 0 ]; then
+            echo "Deployment failed (exit code $STATUS)"
+            exit $STATUS
+          else
+            echo "Deployment succeeded"
+          fi
