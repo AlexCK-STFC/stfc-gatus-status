@@ -5,3 +5,4 @@ secrets.yaml
 data/*
 cron.log
 config/decrypted-*.yaml
+.secrets
