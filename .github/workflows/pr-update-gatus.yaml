@@ -1,0 +1,111 @@
+name: Nightly Gatus Image Updater
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # daily at 00:00 UTC
+  workflow_dispatch:
+
+jobs:
+  update_gatus_images:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+          sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq
+          sudo chmod +x /usr/bin/yq
+
+
+      - name: Find latest stable Gatus tag
+        id: get_latest_tag
+        run: |
+          LATEST_TAG=$(curl -s "https://registry.hub.docker.com/v2/repositories/twinproduction/gatus/tags?page_size=100" | \
+            jq -r '.results[].name' | \
+            grep '^v' | \
+            grep -E -v 'alpha|beta|rc|dev|latest' | \
+            sort -V | \
+            tail -n 1)
+          if [[ -z "$LATEST_TAG" ]]; then
+            echo ":error:Could not determine latest Gatus tag."
+            exit 1
+          fi
+          echo "Latest stable Gatus tag: $LATEST_TAG"
+          echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
+
+      # --- Update Production Compose ---
+      - name: Check and update prod docker-compose.yml
+        id: prod_check
+        run: |
+          FILE=docker-compose.yml
+          CURRENT_TAG=$(yq e '.services.gatus.image' $FILE | cut -d: -f2)
+          echo "Current Prod tag: $CURRENT_TAG"
+          echo "CURRENT_TAG=$CURRENT_TAG" >> $GITHUB_OUTPUT
+
+          if [[ "$CURRENT_TAG" != "$LATEST_TAG" ]]; then
+            echo "Updating $FILE to Gatus $LATEST_TAG"
+            yq -i '.services.gatus.image = "twinproduction/gatus:'"$LATEST_TAG"'"' $FILE
+            echo "UPDATED=true" >> $GITHUB_OUTPUT
+          else
+            echo "Prod Gatus image is up-to-date"
+            echo "UPDATED=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create/Update Prod Pull Request
+        if: steps.prod_check.outputs.UPDATED == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "MAINT: Update Gatus image tag to ${{ env.LATEST_TAG }} (Prod)"
+          committer: GitHub <noreply@github.com>
+          author: GitHub <noreply@github.com>
+          branch: maint/gatus-prod-update
+          delete-branch: false
+          title: "MAINT: Update Gatus image to ${{ env.LATEST_TAG }} (Production)"
+          body: |
+            :robot: Bumps the `twinproduction/gatus` image from `${{ steps.prod_check.outputs.CURRENT_TAG }}` to `${{ env.LATEST_TAG }}` in **`docker-compose.yml` (Production)**.
+          labels: |
+            dependencies
+            automated
+
+      # --- Update Development Compose ---
+      - name: Check and update dev docker-compose.yml
+        id: dev_check
+        run: |
+          FILE=dev-docker-compose.yml
+          CURRENT_TAG=$(yq e '.services.gatus.image' $FILE | cut -d: -f2)
+          echo "Current Dev tag: $CURRENT_TAG"
+          echo "CURRENT_TAG=$CURRENT_TAG" >> $GITHUB_OUTPUT
+
+          if [[ "$CURRENT_TAG" != "$LATEST_TAG" ]]; then
+            echo "Updating $FILE to Gatus $LATEST_TAG"
+            yq -i '.services.gatus.image = "twinproduction/gatus:'"$LATEST_TAG"'"' $FILE
+            echo "UPDATED=true" >> $GITHUB_OUTPUT
+          else
+            echo "Dev Gatus image is up-to-date"
+            echo "UPDATED=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create/Update Dev Pull Request
+        if: steps.dev_check.outputs.UPDATED == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "MAINT: Update Gatus image tag to ${{ env.LATEST_TAG }} (Dev)"
+          committer: GitHub <noreply@github.com>
+          author: GitHub <noreply@github.com>
+          branch: maint/gatus-dev-update
+          delete-branch: false
+          title: "MAINT: Update Gatus image to ${{ env.LATEST_TAG }} (Development)"
+          body: |
+            :robot: Bumps the `twinproduction/gatus` image from `${{ steps.dev_check.outputs.CURRENT_TAG }}` to `${{ env.LATEST_TAG }}` in **`dev-docker-compose.yml` (Development)**.
+          labels: |
+            dependencies
+            automated
