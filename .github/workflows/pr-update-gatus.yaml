@@ -1,8 +1,8 @@
 name: Nightly Gatus Image Updater
 
 on:
-  schedule:
-    - cron: '0 0 * * *' # daily at 00:00 UTC
+  # schedule:
+  #   - cron: '0 0 * * *' # daily at 00:00 UTC
   workflow_dispatch:
 
 jobs:
@@ -79,7 +79,7 @@ jobs:
       - name: Check and update dev docker-compose.yml
         id: dev_check
         run: |
-          FILE=dev-docker-compose.yml
+          FILE=docker-compose-dev.yml
           CURRENT_TAG=$(yq e '.services.gatus.image' $FILE | cut -d: -f2)
           echo "Current Dev tag: $CURRENT_TAG"
           echo "CURRENT_TAG=$CURRENT_TAG" >> $GITHUB_OUTPUT
@@ -105,7 +105,7 @@ jobs:
           delete-branch: false
           title: "MAINT: Update Gatus image to ${{ env.LATEST_TAG }} (Development)"
           body: |
-            :robot: Bumps the `twinproduction/gatus` image from `${{ steps.dev_check.outputs.CURRENT_TAG }}` to `${{ env.LATEST_TAG }}` in **`dev-docker-compose.yml` (Development)**.
+            :robot: Bumps the `twinproduction/gatus` image from `${{ steps.dev_check.outputs.CURRENT_TAG }}` to `${{ env.LATEST_TAG }}` in **`docker-compose-dev.yml` (Development)**.
           labels: |
             dependencies
             automated
