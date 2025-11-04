@@ -1,6 +1,6 @@
 metrics: true
 ui:
-  header: STFC Cloud Status Page
+  header: STFC Cloud Status Page (TEST HERE)
   link: http://130.246.81.39/
   logo: https://raw.githubusercontent.com/AlexCK-STFC/stfc-gatus-status/refs/heads/main/assets/UKRI_STFC_Square_RGB.png
   buttons:
