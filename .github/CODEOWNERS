@@ -1,0 +1,6 @@
+# Require approval for any changes in the base directory + subfolders
+**   @stfc/cloud
+
+# Allow free changes (no approval required) in these directories:
+config/**    # No codeowner = no approval needed
+config-sops/**
