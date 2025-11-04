@@ -1,0 +1,39 @@
+name: Deploy on Dev via SSH
+
+on:
+  workflow_dispatch:
+# Do we want this enabled? Or do we want to just do dev deployments manually
+# to avoid overwriting in-progress changes?
+# I wasn't planning on having a seperate "staging" branch, since it would slow down
+# promotions when i.e. Ops need to quickly mark a service as down...
+#   push:
+#     branches:
+#       - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger remote deployment
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST_DEV }}
+          SSH_USER: ${{ secrets.SSH_USER_DEV }}
+          SSH_KEY: ${{ secrets.SSH_KEY_DEV }}
+        run: |
+          echo "$SSH_KEY" > private_key.pem
+          chmod 600 private_key.pem
+
+          echo "Connecting to $SSH_USER@$SSH_HOST and triggering deployment..."
+          # The forced command in authorized_keys will run the deploy script
+          set +e
+          ssh -i private_key.pem -o StrictHostKeyChecking=no "$SSH_USER@$SSH_HOST"
+          STATUS=$?
+          set -e
+          
+          if [ $STATUS -ne 0 ]; then
+            echo "Deployment failed (exit code $STATUS)"
+            exit $STATUS
+          else
+            echo "Deployment succeeded"
+          fi
