@@ -1,0 +1,28 @@
+version: 2
+updates:
+  - package-ecosystem: "docker-compose"
+    directory: "/" 
+    schedule:
+      interval: "daily"
+      time: "00:00"
+      timezone: "UTC"
+      
+    labels:
+      - "dependencies"
+      - "automated"
+    commit-message:
+      prefix: "MAINT"
+      include: "scope"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "00:00"
+      timezone: "UTC"
+    labels:
+      - "dependencies"
+      - "automated"
+    commit-message:
+      prefix: "MAINT"
+      include: "scope"
