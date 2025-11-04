@@ -1,6 +1,8 @@
 # STFC Status Page (Gatus)
 This is a WIP status page built using [Gatus](https://github.com/TwiN/gatus/)
 
+TEST: This should REQUIRE reviewers.
+
 ## Usage:
 ```bash
   ./manage.sh deploy [--local] [--dev]          # Pull latest, decrypt, (re)deploy, cleanup 
