@@ -7,7 +7,7 @@ ENC_ENV_FILE="$REPO_DIR/enc.env"
 DEV_ENC_ENV_FILE="$REPO_DIR/enc.dev.env"
 DEC_ENV_FILE="$REPO_DIR/.env.dec"
 DOCKER_COMPOSE_FILE="$REPO_DIR/docker-compose.yml"
-DEV_DOCKER_COMPOSE_FILE="$REPO_DIR/dev-docker-compose.yml"
+DEV_DOCKER_COMPOSE_FILE="$REPO_DIR/docker-compose-dev.yml"
 DECRYPTED_PREFIX="decrypted-"
 CONFIG_SECRET_DIR="$REPO_DIR/config-sops"
 CONFIG_DIR="$REPO_DIR/config"
@@ -148,8 +148,8 @@ teardown() {
 
   # Handle --dev flag
   if [[ "$dev_flag" == true ]]; then
-    DOCKER_COMPOSE_FILE="$REPO_DIR/dev-docker-compose.yml"
-    ENC_ENV_FILE="$REPO_DIR/enc.dev.env"
+    DOCKER_COMPOSE_FILE="$DEV_DOCKER_COMPOSE_FILE"
+    ENC_ENV_FILE="$DEV_ENC_ENV_FILE"
     echo "Using development Docker Compose file: $DOCKER_COMPOSE_FILE"
     echo "Using development env file: $ENC_ENV_FILE"
   fi

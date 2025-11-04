@@ -1,6 +1,6 @@
 services:
   gatus:
-    image: twinproduction/gatus:v5.30.0
+    image: twinproduction/gatus:v5.29.0
     restart: always
     environment:
       - GATUS_CONFIG_PATH=/config
@@ -20,7 +20,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./dev-nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx-dev.conf:/etc/nginx/nginx.conf:ro
     networks:
       - web
     depends_on:
