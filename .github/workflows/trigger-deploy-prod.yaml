@@ -1,4 +1,4 @@
-name: Deploy via SSH
+name: Deploy on Prod via SSH
 
 on:
   workflow_dispatch:
@@ -13,9 +13,9 @@ jobs:
     steps:
       - name: Trigger remote deployment
         env:
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_KEY: ${{ secrets.SSH_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST_PROD }}
+          SSH_USER: ${{ secrets.SSH_USER_PROD }}
+          SSH_KEY: ${{ secrets.SSH_KEY_PROD }}
         run: |
           echo "$SSH_KEY" > private_key.pem
           chmod 600 private_key.pem
