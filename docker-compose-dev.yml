@@ -9,7 +9,7 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
       - VIRTUAL_HOST=130.246.211.219
     volumes:
-      - ./config:/config
+      - ./config-dev:/config
     networks:
       - web
     depends_on:
