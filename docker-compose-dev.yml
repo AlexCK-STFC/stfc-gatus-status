@@ -7,26 +7,43 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
-      - VIRTUAL_HOST=130.246.211.219
+      - VIRTUAL_HOST=status-dev-openstack.stfc.ac.uk
     volumes:
       - ./config-dev:/config
     networks:
       - web
     depends_on:
       - postgres
+  
   nginx:
     image: nginx:stable-alpine
     container_name: nginx
+    restart: always
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./nginx-dev.conf:/etc/nginx/nginx.conf:ro
+      - certbot-www:/var/www/certbot
+      - certbot-conf:/etc/letsencrypt
     networks:
       - web
     depends_on:
       - gatus
+      - certbot
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - certbot-www:/var/www/certbot
+      - certbot-conf:/etc/letsencrypt
+    networks:
+      - web
+
   postgres:
     image: postgres:18-alpine
+    restart: always
     volumes:
       - pgdata:/var/lib/postgresql/data
     environment:
@@ -35,7 +52,13 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
     networks:
       - web
+
+
+
 volumes:
   pgdata:
+  certbot-www:
+  certbot-conf:
+
 networks:
   web:
