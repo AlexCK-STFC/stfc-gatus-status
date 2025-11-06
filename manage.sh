@@ -3,16 +3,23 @@ set -e
 
 ### === CONFIG ===
 REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
+
 ENC_ENV_FILE="$REPO_DIR/enc.env"
 DEV_ENC_ENV_FILE="$REPO_DIR/enc.dev.env"
 DEC_ENV_FILE="$REPO_DIR/.env.dec"
+
 DOCKER_COMPOSE_FILE="$REPO_DIR/docker-compose.yml"
 DEV_DOCKER_COMPOSE_FILE="$REPO_DIR/docker-compose-dev.yml"
+
 DECRYPTED_PREFIX="decrypted-"
+
 CONFIG_DIR="$REPO_DIR/config"
 CONFIG_SECRET_DIR="$REPO_DIR/config-sops"
 DEV_CONFIG_DIR="$REPO_DIR/config-dev"
 DEV_CONFIG_SECRET_DIR="$REPO_DIR/config-sops-dev"
+
+GATUS_DOMAIN=https://status-openstack.stfc.ac.uk/
+DEV_GATUS_DOMAIN=https://status-dev-openstack.stfc.ac.uk/
 WAIT_TIME=5
 MAX_RETRIES=3
 
@@ -63,7 +70,7 @@ wait_for_containers() {
   local retries=0
 
   while (( retries < MAX_RETRIES )); do
-    response=$(curl -s http://localhost/health || echo "")
+    response=$(curl -ks "$GATUS_DOMAIN/health" || echo "")
     
     if [[ "$response" == '{"status":"UP"}' ]]; then
       echo "Service is healthy."
@@ -98,10 +105,15 @@ deploy() {
 
   # Set dev docker compose if requested
   if [[ "$dev_flag" == true ]]; then
-    DOCKER_COMPOSE_FILE=$DEV_DOCKER_COMPOSE_FILE
-    ENC_ENV_FILE=$DEV_ENC_ENV_FILE
+    DOCKER_COMPOSE_FILE="$DEV_DOCKER_COMPOSE_FILE"
+    ENC_ENV_FILE="$DEV_ENC_ENV_FILE"
+    GATUS_DOMAIN="$DEV_GATUS_DOMAIN"
+    CONFIG_DIR="$DEV_CONFIG_DIR"
+    CONFIG_SECRET_DIR="$DEV_CONFIG_SECRET_DIR"
     echo "Using development Docker Compose file: $DOCKER_COMPOSE_FILE"
     echo "Using development env file: $ENC_ENV_FILE"
+    echo "Using development config dir: $CONFIG_DIR"
+    echo "Using development config secret dir: $CONFIG_SECRET_DIR"
   fi
 
   if [[ "$local_flag" == true ]]; then
@@ -152,6 +164,7 @@ teardown() {
   if [[ "$dev_flag" == true ]]; then
     DOCKER_COMPOSE_FILE="$DEV_DOCKER_COMPOSE_FILE"
     ENC_ENV_FILE="$DEV_ENC_ENV_FILE"
+    GATUS_DOMAIN="$DEV_GATUS_DOMAIN"
     CONFIG_DIR="$DEV_CONFIG_DIR"
     CONFIG_SECRET_DIR="$DEV_CONFIG_SECRET_DIR"
     echo "Using development Docker Compose file: $DOCKER_COMPOSE_FILE"
