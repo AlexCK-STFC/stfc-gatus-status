@@ -63,7 +63,7 @@ wait_for_containers() {
   local retries=0
 
   while (( retries < MAX_RETRIES )); do
-    response=$(curl -ks https://localhost/health || echo "")
+    response=$(curl -s http://localhost/health || echo "")
     
     if [[ "$response" == '{"status":"UP"}' ]]; then
       echo "Service is healthy."
