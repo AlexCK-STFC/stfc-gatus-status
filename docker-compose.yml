@@ -14,13 +14,25 @@ services:
       - web
     depends_on:
       - postgres
-  nginx:
-    image: nginx:stable-alpine
-    container_name: nginx
+  swag:
+    image: linuxserver/swag
+    container_name: swag
+    restart: always
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=999               
+      - PGID=988               
+      - TZ=Europe/London
+      - URL=status-openstack.stfc.ac.uk
+      - VALIDATION=http      
+      - EMAIL=CLOUD-SUPPORT@stfc.ac.uk
+    volumes:
+      - ./swag-config/prod-status.subdomain.conf:/config/nginx/proxy-confs/prod-status.subdomain.conf
+      - swag-data:/config
     ports:
       - "80:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - "443:443"
     networks:
       - web
     depends_on:
@@ -35,7 +47,10 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
     networks:
       - web
+      
 volumes:
   pgdata:
+  swag-data:
+
 networks:
   web:

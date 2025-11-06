@@ -7,26 +7,40 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
-      - VIRTUAL_HOST=130.246.211.219
     volumes:
       - ./config-dev:/config
     networks:
       - web
     depends_on:
       - postgres
-  nginx:
-    image: nginx:stable-alpine
-    container_name: nginx
+
+  swag:
+    image: linuxserver/swag
+    container_name: swag
+    restart: always
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=999               
+      - PGID=988               
+      - TZ=Europe/London
+      - URL=status-dev-openstack.stfc.ac.uk
+      - VALIDATION=http      
+      - EMAIL=CLOUD-SUPPORT@stfc.ac.uk
+    volumes:
+      - ./swag-config/dev-status.subdomain.conf:/config/nginx/proxy-confs/dev-status.subdomain.conf
+      - swag-data:/config
     ports:
       - "80:80"
-    volumes:
-      - ./nginx-dev.conf:/etc/nginx/nginx.conf:ro
+      - "443:443"
     networks:
       - web
     depends_on:
       - gatus
+
   postgres:
     image: postgres:18-alpine
+    restart: always
     volumes:
       - pgdata:/var/lib/postgresql/data
     environment:
@@ -35,7 +49,10 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
     networks:
       - web
+
 volumes:
   pgdata:
+  swag-data:
+
 networks:
   web:
