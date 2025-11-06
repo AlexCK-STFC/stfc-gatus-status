@@ -1,0 +1,24 @@
+defaults-cloud-services: &defaults_cloud_services
+    group: Cloud Services
+    interval: 5m
+    ui:
+        hide-conditions: true
+    conditions:
+        - '[STATUS] == any(200)'
+
+endpoints:
+    - name: Azimuth
+      url: https://portal.apps.cape.stfc.ac.uk/
+      <<: *defaults_cloud_services
+
+    - name: DockerHub Mirror
+      url: http://dockerhub.stfc.ac.uk/
+      <<: *defaults_cloud_services
+
+    - name: Harbor
+      url: http://harbor.stfc.ac.uk/
+      <<: *defaults_cloud_services
+
+    - name: OpenStack Web UI (Horizon)
+      url: "https://openstack.stfc.ac.uk"
+      <<: *defaults_cloud_services

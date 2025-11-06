@@ -9,8 +9,10 @@ DEC_ENV_FILE="$REPO_DIR/.env.dec"
 DOCKER_COMPOSE_FILE="$REPO_DIR/docker-compose.yml"
 DEV_DOCKER_COMPOSE_FILE="$REPO_DIR/docker-compose-dev.yml"
 DECRYPTED_PREFIX="decrypted-"
-CONFIG_SECRET_DIR="$REPO_DIR/config-sops"
 CONFIG_DIR="$REPO_DIR/config"
+CONFIG_SECRET_DIR="$REPO_DIR/config-sops"
+DEV_CONFIG_DIR="$REPO_DIR/config-dev"
+DEV_CONFIG_SECRET_DIR="$REPO_DIR/config-sops-dev"
 WAIT_TIME=5
 MAX_RETRIES=3
 
@@ -150,8 +152,12 @@ teardown() {
   if [[ "$dev_flag" == true ]]; then
     DOCKER_COMPOSE_FILE="$DEV_DOCKER_COMPOSE_FILE"
     ENC_ENV_FILE="$DEV_ENC_ENV_FILE"
+    CONFIG_DIR="$DEV_CONFIG_DIR"
+    CONFIG_SECRET_DIR="$DEV_CONFIG_SECRET_DIR"
     echo "Using development Docker Compose file: $DOCKER_COMPOSE_FILE"
     echo "Using development env file: $ENC_ENV_FILE"
+    echo "Using development config dir: $CONFIG_DIR"
+    echo "Using development config secret dir: $CONFIG_SECRET_DIR"
   fi
 
   decrypt_env

@@ -1,7 +1,7 @@
 metrics: true
 ui:
-  header: STFC Cloud Status Page
-  link: http://status-openstack.stfc.ac.uk/
+  header: STFC Dev Cloud Status Page
+  link: http://status-dev-openstack.stfc.ac.uk/
   logo: https://raw.githubusercontent.com/AlexCK-STFC/stfc-gatus-status/refs/heads/main/assets/UKRI_STFC_Square_RGB.png
   buttons:
     - name: "STFC Cloud Slack"

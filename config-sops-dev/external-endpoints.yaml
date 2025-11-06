@@ -1,0 +1,41 @@
+external-endpoints: null
+# - name: Test-External-Heartbeat
+#   group: Cloud Services
+#   token: # Some token will go here and be SOPS encrypted
+#   heartbeat:
+#     interval: 1m
+# curl -X POST "http://localhost:8080/api/v1/endpoints/cloud-services_test-external-heartbeat/external?success=true&duration=10s" \
+#   -H "Authorization: Bearer <TOKEN_HERE>"
+sops:
+    age:
+        - recipient: age1alwl6u2ypueddmkquuhpxtfx4u7rwdgttnre4y64ku4erp6pue2sqlravx
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSA1bUlTYU4ycVNMVm1vZGt4
+            N0x2VC9CM3M4SWhFWlBKSHhBbmc3aEtZbDJnCml3VHpOc0JMQkVlZHZaL05NN3U5
+            VXJiQnNnMlEvOW1pZkwvSTNuN0RDQkEKLS0tIDYwWGRKRkxCSy90bkROTlhxbUZQ
+            dnlySU1INkViRG9qbDkzT1R3TXBWSU0KGuN6PnfWcpn2Gt2N3Yjukhz7ynGWqYzk
+            qaZN4Gp/LaFcozwyJMgZ7Lmdr69GezX1uAUWdho113WalWARJ20b1g==
+            -----END AGE ENCRYPTED FILE-----
+        - recipient: age1f2xzzxkca8nlfvpzal3jx8tg8tyyf9svrcwmfm70j5drycj23u4qa20j3r
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBNWVRlUjQ5MER4RVJTeDl4
+            cE1hS2Vza1I5aTJ5MVJWQUhPRDQ5VSsxU0ZZCjlOSU56SFJZSytLdkMzVlViUXUz
+            ZVBwQXNIanpkUmtzMTRQQW0xSjMzdE0KLS0tIGtrWDVNdVF6UUIwOWRhMzhqelRT
+            SHM5OTgwUXo3aXlpVnhzVlVRbHFrcjAKAslx67EOMncvOzY7keQO1FiwS7p6Wk4G
+            EqVDFqCJO9fhvBpEFAQeOGBG5jtn5eDbPIObqeqh+kjWAdKoX113CA==
+            -----END AGE ENCRYPTED FILE-----
+        - recipient: age1t22kyk2z78m6hv80wu37j58uszkadku50mda8d4y83meqz7l7qksu96wm8
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSByRDNVd3ZhWXNyTEM4QmZC
+            V3RxQTNZOXNoUFZtODRkNGJ5bklNSXhOaDMwCml2V0UwSVlkOUo2Y1kybU43ZkVU
+            aG9TZU0yeGg3VVYvNmlEWG9ZcGM5UzgKLS0tIFdCUUxaSjdVWFVWRGRaMGdyOUlh
+            NEgyNVRocStZSUVRbHBVUzVVNStkSlkK59Vr8KxAl5+blqw2lZxGkP+1RHHAiXNP
+            pTQOibPAF1PB7zg1detugKt453Wo2mZF1GbL7vxoH9A+tw2D0uyqCg==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2025-11-06T13:32:03Z"
+    mac: ENC[AES256_GCM,data:alLIXl7gv0E/Bw4lL4lML1OSC8tTy4InhheszNNkYj2nknHoKcMIbFKV9MVJ/e8rjSVxx8G4y/cgAiCQX3e1kbmQ35I1kDcTiBi1BTz6wgAqmRRgGMJmesPNi82JuvtCBO84zOoPFTTAuj2SwReasf7FKc2p30S36IQcsv9KjR4=,iv:GyltbrcJjeLYW9tABOqqON1xIDZ6U+oygTJdeEZ67Lw=,tag:LdpLV5Pvd5oFi4PFRsNJyA==,type:str]
+    encrypted_regex: ^(token)$
+    version: 3.10.2
