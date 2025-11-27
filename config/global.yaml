@@ -25,6 +25,7 @@ announcements:
     type: information
     message: |
       Upcoming electrical maintenance works are planned for the weekends of the 1st and 2nd, and 8th and 9th, of November. While this and further planned maintenance works on our Control Plane and Network infrastructure take place, the cloud will be operating at-risk for the period beginning Friday 31st October through to Wednesday 12th November. For more information, included a list of impacted VM types, users should visit our Slack linked above and view the #notifications channel.
+    archived: true
 storage:
   type: postgres
   path: "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?sslmode=disable"
