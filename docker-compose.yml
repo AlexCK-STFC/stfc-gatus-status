@@ -16,7 +16,7 @@ services:
     depends_on:
       - postgres
   swag:
-    image: linuxserver/swag:5.1.0
+    image: linuxserver/swag:5.2.1
     container_name: swag
     restart: always
     cap_add:
