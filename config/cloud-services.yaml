@@ -18,7 +18,3 @@ endpoints:
     - name: Harbor
       url: http://harbor.stfc.ac.uk/
       <<: *defaults_cloud_services
-
-    - name: OpenStack Web UI (Horizon)
-      url: "https://openstack.stfc.ac.uk"
-      <<: *defaults_cloud_services
