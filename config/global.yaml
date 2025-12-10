@@ -24,7 +24,7 @@ announcements:
   - timestamp: 2025-12-09T17:00:00.000+00:00
     type: information
     message: |
-      The STFC Cloud Operations Group will be providing a reduced service from the 18th of December due to staff being on leave leading up to Christmas. No support will be provided between the 25th of December and the 4th of January, with normal support resuming on January 5th. We will be providing our usual out of hours on call service during this period to respond to platform level critical issues. User communities should visit our linked Slack channel above and vie the #notifications channel.
+      The STFC Cloud Operations Group will be providing a reduced service from the 18th of December due to staff being on leave leading up to Christmas. No support will be provided between the 25th of December and the 4th of January, with normal support resuming on January 5th. We will be providing our usual out of hours on call service during this period to respond to platform level critical issues. User communities should visit our linked Slack channel above and view the #notifications channel.
   - timestamp: 2025-10-31T08:00:00.000+00:00
     type: information
     message: |
