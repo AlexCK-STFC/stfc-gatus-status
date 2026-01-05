@@ -24,7 +24,7 @@ jobs:
         id: extract
         run: |
           mkdir -p trivy-reports
-          yq -r '.services[] | select(.image | contains("gatus"))' docker-compose.yml > images.txt
+          yq -r '.services[] | select(.image | contains("gatus")).image' docker-compose.yml > images.txt
           echo "Found images:"
           cat images.txt
 
