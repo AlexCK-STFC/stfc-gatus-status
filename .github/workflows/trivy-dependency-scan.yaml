@@ -2,8 +2,8 @@ name: Trivy Image Scan
 
 on:
   workflow_dispatch:
-  # schedule:
-  #   - cron: '0 6 * * 1'  # weekly on Mondays at 06:00 UTC
+  schedule:
+    - cron: '0 6 * * 1'  # weekly on Mondays at 06:00 UTC
 
 jobs:
   trivy-scan:
@@ -24,7 +24,7 @@ jobs:
         id: extract
         run: |
           mkdir -p trivy-reports
-          yq -r '.services[].image' docker-compose.yml > images.txt
+          yq -r '.services[] | select(.image | contains("gatus"))' docker-compose.yml > images.txt
           echo "Found images:"
           cat images.txt
 
